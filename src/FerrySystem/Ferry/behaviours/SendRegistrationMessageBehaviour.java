@@ -1,6 +1,7 @@
 package FerrySystem.Ferry.behaviours;
 
 import FerrySystem.Commons.*;
+import FerrySystem.Commons.helpers.JsonSerializer;
 import FerrySystem.Ferry.FerryAgent;
 import jade.core.behaviours.OneShotBehaviour;
 import jade.lang.acl.ACLMessage;
@@ -8,6 +9,8 @@ import jade.lang.acl.ACLMessage;
 public class SendRegistrationMessageBehaviour extends OneShotBehaviour {
     private FerryAgent myFerryAgent;
     private Port port;
+
+    JsonSerializer jsonSerializer = new JsonSerializer();
 
     public SendRegistrationMessageBehaviour(FerryAgent agent, Port port) {
         super(agent);
@@ -18,10 +21,15 @@ public class SendRegistrationMessageBehaviour extends OneShotBehaviour {
     @Override
     public void action() {
         var message = new ACLMessage(ACLMessage.REQUEST);
-        message.setOntology(Defines.FERRY_SYSTEM_ONTOLOGY);
-        message.setContent(Defines.FERRY_SYSTEM_REGISTER);
+        message.setOntology(Defines.FERRY_SYSTEM_ONTOLOGY_FERRY_REGISTER);
         message.addReceiver(port.getAgentAID());
-        myAgent.send(message);
-    }
 
+        var ferry = myFerryAgent.getFerry();
+        var serialized = jsonSerializer.serialize(ferry);
+        message.setContent(serialized);
+
+        myAgent.send(message);
+
+        myFerryAgent.getLogger().log("Sent registration message");
+    }
 }

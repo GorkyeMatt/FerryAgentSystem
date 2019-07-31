@@ -1,38 +1,43 @@
 package FerrySystem.Ferry.behaviours;
 
 import FerrySystem.Commons.*;
+import FerrySystem.Commons.helpers.Logger;
+import FerrySystem.Commons.helpers.MessageReceiveBehaviour;
 import FerrySystem.Ferry.FerryAgent;
-import jade.core.behaviours.OneShotBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 
-public class ConfirmRegistrationBehaviour extends OneShotBehaviour {
+public class ConfirmRegistrationBehaviour extends MessageReceiveBehaviour {
 
     private FerryAgent myFerryAgent;
     private Port port;
+    private Logger logger;
+
+    private MessageTemplate template =  MessageTemplate.MatchOntology(Defines.FERRY_SYSTEM_ONTOLOGY_FERRY_REGISTER);
 
     public ConfirmRegistrationBehaviour(FerryAgent agent, Port port) {
         super(agent);
         this.myFerryAgent = agent;
         this.port = port;
+        this.logger = myFerryAgent.getLogger();
     }
 
     @Override
-    public void action() {
+    public void onMessageReceived(ACLMessage received) {
+        logger.log(received);
 
-        var template = MessageTemplate.and(
-                MessageTemplate.MatchOntology(Defines.FERRY_SYSTEM_ONTOLOGY),
-                MessageTemplate.MatchPerformative(ACLMessage.INFORM));
+        var content = received.getContent();
 
-        var message = myAgent.receive(template);
-        var content = message.getContent();
-
-        if(content.compareTo(Defines.FERRY_SYSTEM_REGISTRATION_REJECTED) == 0){
+        if(received.getPerformative() != ACLMessage.AGREE){
             myFerryAgent.informRegisterFailure();
-        }
-        else{
+        } else{
             var id = Integer.parseInt(content);
             myFerryAgent.informRegisterSuccess(id, port);
         }
+    }
+
+    @Override
+    public MessageTemplate messageTemplate() {
+        return template;
     }
 }
