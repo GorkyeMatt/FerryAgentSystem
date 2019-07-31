@@ -1,53 +1,45 @@
 package RegisterFerry;
 
-import FerrySystem.Commons.Ferry;
 import FerrySystem.Ferry.FerryAgent;
 import FerrySystem.Port.PortAgent;
-import jade.core.Profile;
-import jade.core.ProfileImpl;
-import jade.core.Runtime;
-import jade.wrapper.AgentController;
-import jade.wrapper.ContainerController;
-import jade.wrapper.StaleProxyException;
+import helpers.jadeStarter;
+
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class RegisterFerryTests {
+class RegisterFerryTests {
 
-    private ContainerController containerController;
-    private PortAgent port;
+    private jadeStarter jadeStarter;
 
     @BeforeEach
-    void setUp() throws StaleProxyException {
-        containerController = createContainer();
-        startPortAgent(containerController);
+    void setUp(){
+        jadeStarter = new jadeStarter();
     }
 
-    private ContainerController createContainer() {
-        Profile profile = new ProfileImpl();
-
-        var runtime = Runtime.instance();
-        var containerController = runtime.createMainContainer(profile);
-        return containerController;
+    @AfterEach
+    void tearDown(){
+        jadeStarter.close();
     }
 
-    private void startPortAgent(ContainerController cc) throws StaleProxyException {
-        port = new PortAgent();
-
-        AgentController ac = cc.acceptNewAgent("port", port);
-        ac.start();
-    }
 
     @Test
-    public void RegisterFerry() throws StaleProxyException, InterruptedException {
-        FerryAgent ferryAgent = new FerryAgent();
+    void RegisterFerry() throws InterruptedException {
 
-        AgentController ac = containerController.acceptNewAgent("1", ferryAgent);
-        ac.start();
+        var portAgent = new PortAgent();
+        jadeStarter.startAgent("port", portAgent);
 
-        Thread.sleep(1000);
-        ferryAgent.getLogger().log("ferries: " + port.getFerriesCount() );
-        ferryAgent.getLogger().log("ferries: " + port.getFerriesCount() );
+        var ferryAgent = new FerryAgent();
+        jadeStarter.startAgent("ferry1", ferryAgent);
 
+
+        Thread.sleep(1000); //give agent time to finish job
+
+        var ferriesInPort = portAgent.getFerriesCount();
+        assertEquals(1, ferriesInPort);
+
+        var ferryRegisteredInPort = ferryAgent.getFerry().getMyPort();
+        assertNotNull(ferryRegisteredInPort);
     }
 }

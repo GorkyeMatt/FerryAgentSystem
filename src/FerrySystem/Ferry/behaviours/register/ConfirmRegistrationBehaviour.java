@@ -1,30 +1,32 @@
-package FerrySystem.Ferry.behaviours;
+package FerrySystem.Ferry.behaviours.register;
 
 import FerrySystem.Commons.*;
-import FerrySystem.Commons.helpers.Logger;
-import FerrySystem.Commons.helpers.MessageReceiveBehaviour;
+import FerrySystem.Commons.helpers.behaviours.OneMessageReceiveBehaviour;
 import FerrySystem.Ferry.FerryAgent;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 
-public class ConfirmRegistrationBehaviour extends MessageReceiveBehaviour {
+public class ConfirmRegistrationBehaviour extends OneMessageReceiveBehaviour {
 
     private FerryAgent myFerryAgent;
     private Port port;
-    private Logger logger;
 
-    private MessageTemplate template =  MessageTemplate.MatchOntology(Defines.FERRY_SYSTEM_ONTOLOGY_FERRY_REGISTER);
-
-    public ConfirmRegistrationBehaviour(FerryAgent agent, Port port) {
+    ConfirmRegistrationBehaviour(FerryAgent agent, Port port) {
         super(agent);
         this.myFerryAgent = agent;
         this.port = port;
-        this.logger = myFerryAgent.getLogger();
+    }
+
+    private MessageTemplate template =  MessageTemplate.MatchOntology(Defines.FERRY_SYSTEM_ONTOLOGY_FERRY_REGISTER);
+
+    @Override
+    public MessageTemplate messageTemplate() {
+        return template;
     }
 
     @Override
     public void onMessageReceived(ACLMessage received) {
-        logger.log(received);
+        myFerryAgent.getLogger().log(received);
 
         var content = received.getContent();
 
@@ -34,10 +36,5 @@ public class ConfirmRegistrationBehaviour extends MessageReceiveBehaviour {
             var id = Integer.parseInt(content);
             myFerryAgent.informRegisterSuccess(id, port);
         }
-    }
-
-    @Override
-    public MessageTemplate messageTemplate() {
-        return template;
     }
 }

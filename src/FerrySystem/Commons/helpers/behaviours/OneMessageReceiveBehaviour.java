@@ -1,21 +1,17 @@
-package FerrySystem.Commons.helpers;
+package FerrySystem.Commons.helpers.behaviours;
 
 import jade.core.Agent;
 import jade.core.behaviours.SimpleBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 
-public abstract class MessageReceiveBehaviour extends SimpleBehaviour {
-
-    public MessageReceiveBehaviour(Agent a) {
+public abstract class OneMessageReceiveBehaviour extends SimpleBehaviour {
+    public OneMessageReceiveBehaviour(Agent a) {
         super(a);
     }
 
-
     public abstract void onMessageReceived(ACLMessage message);
-
     public abstract MessageTemplate messageTemplate();
-
 
     private boolean receivedMessage = false;
 

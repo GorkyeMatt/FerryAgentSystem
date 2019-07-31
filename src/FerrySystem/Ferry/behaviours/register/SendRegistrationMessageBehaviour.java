@@ -1,4 +1,4 @@
-package FerrySystem.Ferry.behaviours;
+package FerrySystem.Ferry.behaviours.register;
 
 import FerrySystem.Commons.*;
 import FerrySystem.Commons.helpers.JsonSerializer;
@@ -10,9 +10,9 @@ public class SendRegistrationMessageBehaviour extends OneShotBehaviour {
     private FerryAgent myFerryAgent;
     private Port port;
 
-    JsonSerializer jsonSerializer = new JsonSerializer();
+    private JsonSerializer jsonSerializer = new JsonSerializer();
 
-    public SendRegistrationMessageBehaviour(FerryAgent agent, Port port) {
+    SendRegistrationMessageBehaviour(FerryAgent agent, Port port) {
         super(agent);
         this.myFerryAgent = agent;
         this.port = port;

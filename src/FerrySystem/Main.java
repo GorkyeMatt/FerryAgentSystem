@@ -9,7 +9,7 @@ import jade.wrapper.AgentController;
 import jade.wrapper.StaleProxyException;
 
 public class Main {
-    public static void main(String[] args) throws StaleProxyException {
+    public static void main(String[] args) throws StaleProxyException, InterruptedException {
         Profile profile = new ProfileImpl();
 
         var runtime = Runtime.instance();
@@ -26,6 +26,8 @@ public class Main {
         ac.start();
 
         ferryAgent.getLogger().log("ferries: " + port.getFerriesCount() );
+
+        Thread.sleep(10000);
         ferryAgent.getLogger().log("ferries: " + port.getFerriesCount() );
 
     }

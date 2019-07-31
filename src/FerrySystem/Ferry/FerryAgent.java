@@ -3,20 +3,17 @@ package FerrySystem.Ferry;
 import FerrySystem.Commons.*;
 import FerrySystem.Commons.helpers.Logger;
 import FerrySystem.Commons.helpers.SimpleLogger;
-import FerrySystem.Ferry.behaviours.RegisterInPortBehaviour;
+import FerrySystem.Ferry.behaviours.register.RegisterInPortBehaviour;
 import jade.core.AID;
 import jade.core.Agent;
 
 public class FerryAgent extends Agent {
-
     //region Fields
 
     private Ferry myFerry;
     private Logger logger = new SimpleLogger();
 
     //endregion
-
-
 
     //region Getters and setters
 
@@ -30,6 +27,7 @@ public class FerryAgent extends Agent {
 
     //endregion
 
+    //region Setup
 
     @Override
     protected void setup() {
@@ -38,12 +36,14 @@ public class FerryAgent extends Agent {
         logger.log("Ferry is ready");
 
         myFerry = new Ferry();
+        myFerry.setAgentAID(this.getAID());
 
         var port = new Port();
         port.setAgentAID(new AID("port", AID.ISLOCALNAME));
         registerInPort(port);
     }
 
+    //endregion
 
     //region Register in port
 
@@ -57,11 +57,11 @@ public class FerryAgent extends Agent {
         myFerry.setMyPort(null);
         logger.log("Registration in port failed!!!");
     }
+
     public void informRegisterSuccess(int id, Port port){
         myFerry.setId(id);
         myFerry.setMyPort(port);
         logger.log("Successfully registered in port");
-
     }
 
     //endregion

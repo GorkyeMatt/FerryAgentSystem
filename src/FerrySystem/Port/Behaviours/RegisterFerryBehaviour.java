@@ -3,24 +3,28 @@ package FerrySystem.Port.Behaviours;
 import FerrySystem.Commons.Defines;
 import FerrySystem.Commons.Ferry;
 import FerrySystem.Commons.helpers.Logger;
+import FerrySystem.Commons.helpers.behaviours.CyclicMessageReceiveBehaviour;
 import FerrySystem.Port.PortAgent;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 
 import java.io.IOException;
 
-public class RegisterFerryBehaviour extends CyclicBehaviour {
+public class RegisterFerryBehaviour extends CyclicMessageReceiveBehaviour {
 
     private PortAgent myPortAgent;
-    private ObjectMapper mapper = new ObjectMapper();
+    private ObjectMapper mapper;
     private Logger logger;
 
     public RegisterFerryBehaviour(PortAgent myPortAgent) {
         super(myPortAgent);
         this.myPortAgent = myPortAgent;
         logger = myPortAgent.getLogger();
+
+        mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     private MessageTemplate template =  MessageTemplate.and(
@@ -28,30 +32,29 @@ public class RegisterFerryBehaviour extends CyclicBehaviour {
             MessageTemplate.MatchPerformative(ACLMessage.REQUEST));
 
     @Override
-    public void action() {
-        var received = myAgent.receive(template);
-        if (received != null) {
-            logger.log("received:\n:" + received);
+    public MessageTemplate messageTemplate() {
+        return template;
+    }
 
-            var message = received.createReply();
+    @Override
+    public void onMessageReceived(ACLMessage received) {
+        logger.log("received:\n:" + received);
 
-            try {
-                var json = received.getContent();
-                Ferry ferry = mapper.readValue(json, Ferry.class);
-                myPortAgent.addFerry(ferry);
+        var message = received.createReply();
 
-                message.setPerformative(ACLMessage.AGREE);
-                message.setContent(ferry.getId() + "");
-            } catch (IOException e) {
-                e.printStackTrace();
-                message.setPerformative(ACLMessage.REFUSE);
-            }
+        try {
+            var json = received.getContent();
+            Ferry ferry = mapper.readValue(json, Ferry.class);
+            myPortAgent.addFerry(ferry);
 
-            logger.log("sending:\n:" + message);
-            myAgent.send(message);
+            message.setPerformative(ACLMessage.AGREE);
+            message.setContent(ferry.getId() + "");
+        } catch (IOException e) {
+            e.printStackTrace();
+            message.setPerformative(ACLMessage.REFUSE);
         }
-        else {
-            block();
-        }
+
+        logger.log("sending:\n:" + message);
+        myAgent.send(message);
     }
 }
