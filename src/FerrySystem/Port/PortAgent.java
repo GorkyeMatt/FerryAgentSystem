@@ -1,24 +1,28 @@
 package FerrySystem.Port;
 
 import FerrySystem.Commons.Ferry;
+import FerrySystem.Commons.Port;
 import FerrySystem.Commons.helpers.Logger;
 import FerrySystem.Commons.helpers.SimpleLogger;
-import FerrySystem.Port.Behaviours.RegisterFerryBehaviour;
+import FerrySystem.Port.behaviours.RegisterFerryBehaviour;
+import FerrySystem.Port.behaviours.UnregisteringFerryBehaviour;
 import jade.core.Agent;
-
-import java.util.Vector;
 
 public class PortAgent extends Agent {
 
-    private Vector<Ferry> registeredFerries = new Vector<>();
     private Logger logger = new SimpleLogger();
+    private Port myPort;
 
-    public int getFerriesCount(){
-        return registeredFerries.size();
+    public PortAgent(Port port) {
+        this.myPort = port;
     }
 
     public Logger getLogger() {
         return logger;
+    }
+
+    public Port getMyPort() {
+        return myPort;
     }
 
     @Override
@@ -29,12 +33,24 @@ public class PortAgent extends Agent {
 
         var registerFerryBehaviour = new RegisterFerryBehaviour(this);
         addBehaviour(registerFerryBehaviour);
+
+        var unregisteringFerryBehaviour = new UnregisteringFerryBehaviour(this);
+        addBehaviour(unregisteringFerryBehaviour);
     }
 
     public void addFerry(Ferry ferry) {
-        logger.log("Adding new ferry");
-        int id = registeredFerries.size();
+        logger.log("Adding new ferry: " + ferry.getAgentAID());
+        var ferries = myPort.getRegisteredFerries();
+        ferries.add(ferry);
+
+        var id = ferries.size();
         ferry.setId(id);
-        registeredFerries.add(ferry);
     }
+
+    public void removeFerry(int id){
+        logger.log("removing ferry:" + id);
+        var ferries = myPort.getRegisteredFerries();
+        ferries.removeIf(ferry -> ferry.getId() == id);
+    }
+
 }

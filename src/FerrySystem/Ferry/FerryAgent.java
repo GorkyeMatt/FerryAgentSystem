@@ -4,7 +4,7 @@ import FerrySystem.Commons.*;
 import FerrySystem.Commons.helpers.Logger;
 import FerrySystem.Commons.helpers.SimpleLogger;
 import FerrySystem.Ferry.behaviours.register.RegisterInPortBehaviour;
-import jade.core.AID;
+import FerrySystem.Ferry.behaviours.unregister.*;
 import jade.core.Agent;
 
 public class FerryAgent extends Agent {
@@ -29,18 +29,17 @@ public class FerryAgent extends Agent {
 
     //region Setup
 
+
+    public FerryAgent(Ferry ferry) {
+        this.myFerry = ferry;
+    }
+
     @Override
     protected void setup() {
         super.setup();
         logger.setAgentName(this.getName());
         logger.log("Ferry is ready");
-
-        myFerry = new Ferry();
         myFerry.setAgentAID(this.getAID());
-
-        var port = new Port();
-        port.setAgentAID(new AID("port", AID.ISLOCALNAME));
-        registerInPort(port);
     }
 
     //endregion
@@ -62,6 +61,22 @@ public class FerryAgent extends Agent {
         myFerry.setId(id);
         myFerry.setMyPort(port);
         logger.log("Successfully registered in port");
+    }
+
+    //endregion
+
+    //region Unregistering
+
+    public void unregisterFromCurrentPort(){
+        if(myFerry.getMyPort() != null){
+            var unregisterBehaviour = new UnregisterFromPortBehaviour(this);
+            addBehaviour(unregisterBehaviour);
+        }
+    }
+
+    public void finishUnregistering(){
+        myFerry.setMyPort(null);
+        logger.log("Successfully removed ferry from port");
     }
 
     //endregion

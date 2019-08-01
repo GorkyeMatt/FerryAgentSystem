@@ -1,4 +1,4 @@
-package FerrySystem.Port.Behaviours;
+package FerrySystem.Port.behaviours;
 
 import FerrySystem.Commons.Defines;
 import FerrySystem.Commons.Ferry;
@@ -45,6 +45,7 @@ public class RegisterFerryBehaviour extends CyclicMessageReceiveBehaviour {
         try {
             var json = received.getContent();
             Ferry ferry = mapper.readValue(json, Ferry.class);
+
             myPortAgent.addFerry(ferry);
 
             message.setPerformative(ACLMessage.AGREE);

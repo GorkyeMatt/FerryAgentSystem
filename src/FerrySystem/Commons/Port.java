@@ -10,7 +10,7 @@ public class Port {
     private String address;
     private AID agentAID;
 
-    private Vector<Ferry> registredFerries = new Vector<>();
+    private Vector<Ferry> registeredFerries = new Vector<>();
 
     public int getId() {
         return id;
@@ -42,5 +42,13 @@ public class Port {
 
     public void setAgentAID(AID agentAID) {
         this.agentAID = agentAID;
+    }
+
+    public Vector<Ferry> getRegisteredFerries() {
+        return registeredFerries;
+    }
+
+    public void setRegisteredFerries(Vector<Ferry> registeredFerries) {
+        this.registeredFerries = registeredFerries;
     }
 }
