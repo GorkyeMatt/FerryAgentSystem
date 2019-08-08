@@ -31,6 +31,6 @@ public class SendRegistrationMessageBehaviour extends OneShotBehaviour {
 
         myAgent.send(message);
 
-        myFerryAgent.getLogger().log("Sent registration message");
+        myFerryAgent.getLogger().log("Sent registration message: " + message);
     }
 }

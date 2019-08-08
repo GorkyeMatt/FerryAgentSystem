@@ -1,5 +1,6 @@
 package FerrySystem.Ferry;
 
+import FerrySystem.Commons.data.DepartureRegistrationData;
 import FerrySystem.Commons.data.Ferry;
 import FerrySystem.Commons.data.Port;
 import FerrySystem.Commons.helpers.Logger;
@@ -90,9 +91,9 @@ public class FerryAgent extends Agent {
 
     //region Departure management
 
-    public void addDeparture(Object departure){
+    public void addDeparture(DepartureRegistrationData departure){
         if(myFerry.getMyPort() != null){
-            Behaviour registerDepartureBehaviour = new RegisterDepartureBehaviour(this);
+            Behaviour registerDepartureBehaviour = new RegisterDepartureBehaviour(this, departure);
             addBehaviour(registerDepartureBehaviour);
         }
     }
