@@ -1,6 +1,7 @@
-package FerrySystem.Ferry.behaviours.register;
+package FerrySystem.Ferry.behaviours.registerFerry;
 
 import FerrySystem.Commons.*;
+import FerrySystem.Commons.data.Port;
 import FerrySystem.Commons.helpers.JsonSerializer;
 import FerrySystem.Ferry.FerryAgent;
 import jade.core.behaviours.OneShotBehaviour;

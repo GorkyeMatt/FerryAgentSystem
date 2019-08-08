@@ -1,11 +1,14 @@
 package FerrySystem.Ferry;
 
-import FerrySystem.Commons.*;
+import FerrySystem.Commons.data.Ferry;
+import FerrySystem.Commons.data.Port;
 import FerrySystem.Commons.helpers.Logger;
 import FerrySystem.Commons.helpers.SimpleLogger;
-import FerrySystem.Ferry.behaviours.register.RegisterInPortBehaviour;
+import FerrySystem.Ferry.behaviours.registerDeparture.RegisterDepartureBehaviour;
+import FerrySystem.Ferry.behaviours.registerFerry.RegisterInPortBehaviour;
 import FerrySystem.Ferry.behaviours.unregister.*;
 import jade.core.Agent;
+import jade.core.behaviours.Behaviour;
 
 public class FerryAgent extends Agent {
     //region Fields
@@ -44,10 +47,12 @@ public class FerryAgent extends Agent {
 
     //endregion
 
+    //region Registration in port management
+
     //region Register in port
 
     public void registerInPort(Port port){
-        logger.log("register in port: " + port);
+        logger.log("registerFerry in port: " + port);
         var registerBehaviour = new RegisterInPortBehaviour(this, port);
         addBehaviour(registerBehaviour);
     }
@@ -77,6 +82,19 @@ public class FerryAgent extends Agent {
     public void finishUnregistering(){
         myFerry.setMyPort(null);
         logger.log("Successfully removed ferry from port");
+    }
+
+    //endregion
+
+    //endregion
+
+    //region Departure management
+
+    public void addDeparture(Object departure){
+        if(myFerry.getMyPort() != null){
+            Behaviour registerDepartureBehaviour = new RegisterDepartureBehaviour(this);
+            addBehaviour(registerDepartureBehaviour);
+        }
     }
 
     //endregion

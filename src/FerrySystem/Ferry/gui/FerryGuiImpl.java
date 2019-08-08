@@ -1,6 +1,6 @@
 package FerrySystem.Ferry.gui;
 
-import FerrySystem.Commons.Port;
+import FerrySystem.Commons.data.Port;
 import FerrySystem.Ferry.FerryAgent;
 import jade.core.AID;
 

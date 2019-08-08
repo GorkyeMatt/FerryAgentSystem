@@ -1,4 +1,4 @@
-package FerrySystem.Commons;
+package FerrySystem.Commons.data;
 
 import jade.core.AID;
 

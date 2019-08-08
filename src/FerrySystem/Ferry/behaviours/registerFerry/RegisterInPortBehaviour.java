@@ -1,6 +1,6 @@
-package FerrySystem.Ferry.behaviours.register;
+package FerrySystem.Ferry.behaviours.registerFerry;
 
-import FerrySystem.Commons.Port;
+import FerrySystem.Commons.data.Port;
 import FerrySystem.Ferry.FerryAgent;
 import jade.core.behaviours.SequentialBehaviour;
 

@@ -1,6 +1,7 @@
 package RegisterFerry;
 
-import FerrySystem.Commons.*;
+import FerrySystem.Commons.data.Ferry;
+import FerrySystem.Commons.data.Port;
 import FerrySystem.Ferry.FerryAgent;
 import FerrySystem.Port.PortAgent;
 import helpers.jadeStarter;

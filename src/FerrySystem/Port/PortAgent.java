@@ -1,7 +1,7 @@
 package FerrySystem.Port;
 
-import FerrySystem.Commons.Ferry;
-import FerrySystem.Commons.Port;
+import FerrySystem.Commons.data.Ferry;
+import FerrySystem.Commons.data.Port;
 import FerrySystem.Commons.helpers.Logger;
 import FerrySystem.Commons.helpers.SimpleLogger;
 import FerrySystem.Port.behaviours.RegisterFerryBehaviour;
