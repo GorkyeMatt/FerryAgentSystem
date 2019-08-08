@@ -4,16 +4,16 @@ import FerrySystem.Commons.Defines;
 import FerrySystem.Commons.data.DepartureRegistrationData;
 import FerrySystem.Commons.helpers.JsonSerializer;
 import FerrySystem.Ferry.FerryAgent;
-import jade.core.behaviours.Behaviour;
+import jade.core.behaviours.OneShotBehaviour;
 import jade.lang.acl.ACLMessage;
 
-public class SendDepartureRegistrationMessageBehaviour extends Behaviour {
+public class SendDepartureRegistrationMessageBehaviour extends OneShotBehaviour {
     private FerryAgent myFerryAgent;
     private DepartureRegistrationData departure;
 
     private JsonSerializer jsonSerializer = new JsonSerializer();
 
-    public SendDepartureRegistrationMessageBehaviour(FerryAgent agent, DepartureRegistrationData departure) {
+    SendDepartureRegistrationMessageBehaviour(FerryAgent agent, DepartureRegistrationData departure) {
         super(agent);
         this.myFerryAgent = agent;
         this.departure = departure;
@@ -32,10 +32,5 @@ public class SendDepartureRegistrationMessageBehaviour extends Behaviour {
 
         myAgent.send(message);
         myFerryAgent.getLogger().log("Sent departure registration message:" + message);
-    }
-
-    @Override
-    public boolean done() {
-        return false;
     }
 }
