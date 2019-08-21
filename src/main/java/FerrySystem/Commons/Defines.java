@@ -8,4 +8,6 @@ public class Defines {
     public static final String FERRY_SYSTEM_ONTOLOGY_FERRY_UNREGISTER = "ferry-system-ontology/ferry-unregister";
     public static final String FERRY_SYSTEM_ONTOLOGY_DEPARTURE_REGISTER = "ferry-system-ontology/departure-register";
     public static final String FERRY_SYSTEM_ONTOLOGY_DEPARTURE_UNREGISTER = "ferry-system-ontology/departure-unregister";
+    public static final String FERRY_SYSTEM_ONTOLOGY_WEATHER = "ferry-system-ontology/weather";
+    public static final String FERRY_SYSTEM_ONTOLOGY_WEATHER_PORT = "ferry-system-ontology/weather-port";
 }

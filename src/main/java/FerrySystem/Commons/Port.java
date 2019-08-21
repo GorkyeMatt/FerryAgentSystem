@@ -9,6 +9,8 @@ public class Port {
     private String name;
     private String address;
     private AID agentAID;
+    private WeatherInfo weather;
+
 
     private Vector<Ferry> registeredFerries = new Vector<>();
 
@@ -51,4 +53,8 @@ public class Port {
     public void setRegisteredFerries(Vector<Ferry> registeredFerries) {
         this.registeredFerries = registeredFerries;
     }
+
+    public void setWeather (WeatherInfo weather) {this.weather = weather;}
+
+    public WeatherInfo getWeather () {return weather;}
 }

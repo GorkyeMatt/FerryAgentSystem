@@ -5,6 +5,7 @@ import FerrySystem.Commons.helpers.Logger;
 import FerrySystem.Commons.helpers.SimpleLogger;
 import FerrySystem.Ferry.behaviours.register.RegisterInPortBehaviour;
 import FerrySystem.Ferry.behaviours.unregister.*;
+import FerrySystem.Ferry.behaviours.weather.AskWeatherBehaviour;
 import jade.core.Agent;
 
 public class FerryAgent extends Agent {
@@ -40,6 +41,9 @@ public class FerryAgent extends Agent {
         logger.setAgentName(this.getName());
         logger.log("Ferry is ready");
         myFerry.setAgentAID(this.getAID());
+
+        var listen = new AskWeatherBehaviour(this);
+        addBehaviour(listen);
     }
 
     //endregion
