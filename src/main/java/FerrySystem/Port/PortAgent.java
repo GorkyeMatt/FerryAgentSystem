@@ -7,6 +7,7 @@ import FerrySystem.Commons.helpers.Logger;
 import FerrySystem.Commons.helpers.SimpleLogger;
 import FerrySystem.Port.behaviours.RegisterFerryBehaviour;
 import FerrySystem.Port.behaviours.UnregisteringFerryBehaviour;
+import FerrySystem.Port.behaviours.informFerries.InformFerriesBehaviour;
 import FerrySystem.Port.behaviours.weather.InformWeatherBehaviour;
 import jade.core.Agent;
 
@@ -41,6 +42,9 @@ public class PortAgent extends Agent {
 
         var informWeather = new InformWeatherBehaviour(this);
         addBehaviour(informWeather);
+
+        var informFerries = new InformFerriesBehaviour(this);
+        addBehaviour(informFerries);
     }
 
     public void addFerry(Ferry ferry) {

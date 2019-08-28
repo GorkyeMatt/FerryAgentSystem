@@ -16,4 +16,15 @@ public class SimpleLogger implements Logger {
     public void log(ACLMessage message){
         System.out.println(agentName + ":\n" + message + "\n");
     }
+
+    @Override
+    public void logSend(ACLMessage message)
+    {
+        System.out.println(agentName + ":\nsending:\n:" + message + "\n");
+    }
+
+    @Override
+    public void logReceived(ACLMessage message){
+        System.out.println(agentName + ":\nreceived:\n:" + message + "\n");
+    }
 }

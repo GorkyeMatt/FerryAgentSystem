@@ -7,4 +7,7 @@ public interface Logger {
 
     void log(String message);
     void log(ACLMessage message);
+
+    void logSend(ACLMessage message);
+    void logReceived(ACLMessage message);
 }
