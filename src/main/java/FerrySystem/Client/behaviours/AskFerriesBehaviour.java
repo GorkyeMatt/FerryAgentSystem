@@ -1,10 +1,9 @@
-package FerrySystem.Client.behaviours.askferries;
+package FerrySystem.Client.behaviours;
 
 import FerrySystem.Commons.Defines;
 import FerrySystem.Commons.helpers.BasicAgent;
 import FerrySystem.Commons.helpers.behaviours.AskAndWaitBehaviour;
-import jade.core.Agent;
-import jade.core.behaviours.SimpleBehaviour;
+
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 

@@ -3,6 +3,7 @@ package FerrySystem.Port;
 import FerrySystem.Commons.Ferry;
 import FerrySystem.Commons.Port;
 import FerrySystem.Commons.WeatherInfo;
+import FerrySystem.Commons.helpers.BasicAgent;
 import FerrySystem.Commons.helpers.Logger;
 import FerrySystem.Commons.helpers.SimpleLogger;
 import FerrySystem.Port.behaviours.RegisterFerryBehaviour;
@@ -11,17 +12,12 @@ import FerrySystem.Port.behaviours.informFerries.InformFerriesBehaviour;
 import FerrySystem.Port.behaviours.weather.InformWeatherBehaviour;
 import jade.core.Agent;
 
-public class PortAgent extends Agent {
+public class PortAgent extends BasicAgent {
 
-    private Logger logger = new SimpleLogger();
     private Port myPort;
 
     public PortAgent(Port port) {
         this.myPort = port;
-    }
-
-    public Logger getLogger() {
-        return logger;
     }
 
     public Port getMyPort() {

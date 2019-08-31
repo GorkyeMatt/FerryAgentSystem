@@ -1,7 +1,7 @@
 package FerrySystem.Client;
 
-import FerrySystem.Client.behaviours.askferries.AskFerriesBehaviour;
-import FerrySystem.Client.behaviours.weather.AskWeatherBehaviour;
+import FerrySystem.Client.behaviours.AskFerriesBehaviour;
+import FerrySystem.Client.behaviours.AskWeatherBehaviour;
 import FerrySystem.Commons.Car;
 import FerrySystem.Commons.Ferry;
 import FerrySystem.Commons.helpers.BasicAgent;

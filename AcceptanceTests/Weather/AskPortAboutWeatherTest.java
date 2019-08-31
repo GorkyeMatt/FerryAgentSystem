@@ -47,6 +47,7 @@ public class AskPortAboutWeatherTest
         port.setWeather(weather);
 
         var portAgent = new PortAgent(port);
+        portAgent.getLogger().setDisplayLog(false);
         jadeStarter.startAgent("port", portAgent);
 
         var ferry = new Ferry();

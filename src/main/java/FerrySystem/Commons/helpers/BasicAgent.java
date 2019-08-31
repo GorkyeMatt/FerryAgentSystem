@@ -2,6 +2,9 @@ package FerrySystem.Commons.helpers;
 
 import jade.core.Agent;
 
+/**
+ * Adds Logger field
+ */
 public class BasicAgent extends Agent
 {
     protected Logger logger;

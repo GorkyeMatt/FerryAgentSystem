@@ -1,11 +1,13 @@
 package FerrySystem.Commons.helpers.behaviours;
 
-import FerrySystem.Commons.Defines;
 import FerrySystem.Commons.helpers.BasicAgent;
 import jade.core.behaviours.SimpleBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 
+/**
+ * Sends request and waits for the answer
+ */
 public abstract class AskAndWaitBehaviour extends SimpleBehaviour
 {
     private int state;
@@ -37,16 +39,24 @@ public abstract class AskAndWaitBehaviour extends SimpleBehaviour
     }
 
     protected ACLMessage message;
-    public abstract void prepareMessage();
+    /** Prepare message to be sent */
+    protected abstract void prepareMessage();
 
     public void sendMessage()
     {
+        onMessageSending();
         myBasicAgent.getLogger().logSend(message);
         myAgent.send(message);
     }
 
+    /**
+     * Perform some action (log) before sending message
+     */
+    public void onMessageSending(){}
+
     protected MessageTemplate messageTemplate;
-    public abstract void prepareMessageTemplate();
+    /** Prepare message template behaviour is waiting for */
+    protected abstract void prepareMessageTemplate();
 
     public void waitForMessage()
     {
@@ -63,6 +73,7 @@ public abstract class AskAndWaitBehaviour extends SimpleBehaviour
         }
     }
 
+    /** Perform some action when message specified in message template is received */
     public abstract void onMessageReceived(ACLMessage received);
 
     @Override

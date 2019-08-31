@@ -1,6 +1,7 @@
 package FerrySystem.Ferry;
 
 import FerrySystem.Commons.*;
+import FerrySystem.Commons.helpers.BasicAgent;
 import FerrySystem.Commons.helpers.Logger;
 import FerrySystem.Commons.helpers.SimpleLogger;
 import FerrySystem.Ferry.behaviours.register.RegisterInPortBehaviour;
@@ -8,7 +9,8 @@ import FerrySystem.Ferry.behaviours.unregister.*;
 import FerrySystem.Ferry.behaviours.weather.AskWeatherBehaviour;
 import jade.core.Agent;
 
-public class FerryAgent extends Agent {
+public class FerryAgent extends BasicAgent
+{
     //region Fields
 
     private Ferry myFerry;

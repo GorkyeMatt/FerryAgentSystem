@@ -36,7 +36,7 @@ public class InformWeatherBehaviour extends CyclicMessageReceiveBehaviour
     @Override
     public void onMessageReceived(ACLMessage received)
     {
-        logger.log("received:\n:" + received);
+        logger.logReceived(received);
 
         // todo process message;
         var s = received.getContent();
@@ -47,7 +47,7 @@ public class InformWeatherBehaviour extends CyclicMessageReceiveBehaviour
 
         response.setContent(serialized);
 
-        logger.log("sending:\n:" + response);
+        logger.logSend(response);
         myAgent.send(response);
     }
 

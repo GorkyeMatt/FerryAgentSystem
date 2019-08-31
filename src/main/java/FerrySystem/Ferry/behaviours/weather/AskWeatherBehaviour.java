@@ -4,12 +4,13 @@ import FerrySystem.Commons.Defines;
 import FerrySystem.Commons.helpers.Logger;
 import FerrySystem.Commons.helpers.behaviours.CyclicMessageReceiveBehaviour;
 import FerrySystem.Ferry.FerryAgent;
-import jade.core.Agent;
-import jade.core.behaviours.SimpleBehaviour;
-import jade.domain.introspection.AddedBehaviour;
+
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 
+/**
+ * Waits for weather info request
+ */
 public class AskWeatherBehaviour extends CyclicMessageReceiveBehaviour
 {
     private FerryAgent myFerryAgent;

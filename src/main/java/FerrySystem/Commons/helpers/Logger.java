@@ -10,4 +10,7 @@ public interface Logger {
 
     void logSend(ACLMessage message);
     void logReceived(ACLMessage message);
+
+    void setDisplayLog(boolean displayLog);
+    void setDisplaySendReceived(boolean displaySendReceived);
 }
