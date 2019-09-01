@@ -1,45 +1,20 @@
 package RegisterFerry;
 
-import FerrySystem.Commons.Ferry;
-import FerrySystem.Commons.Port;
-import FerrySystem.Ferry.FerryAgent;
-import FerrySystem.Port.PortAgent;
-import helpers.jadeStarter;
-import jade.core.AID;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import helpers.CommonPreparationForTests;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class RegisterAndUnregisterTests {
-
-    private helpers.jadeStarter jadeStarter;
-
-    @BeforeEach
-    void setUp(){
-        jadeStarter = new jadeStarter();
-    }
-
-    @AfterEach
-    void tearDown(){
-        jadeStarter.close();
-    }
-
-
+class RegisterAndUnregisterTests extends CommonPreparationForTests {
     @Test
     void RegisterFerry() throws InterruptedException {
 
         //arrange
-        var port = new Port();
-        port.setAgentAID(new AID("port", AID.ISLOCALNAME));
+        var portAgent = CreatePortAgent("port");
+        var port = portAgent.getMyPort();
 
-        var portAgent = new PortAgent(port);
-        jadeStarter.startAgent("port", portAgent);
+        var ferryAgent = CreateFerryAgent("ferry1");
 
-        var ferry = new Ferry();
-        var ferryAgent = new FerryAgent(ferry);
-        jadeStarter.startAgent("ferry1", ferryAgent);
 
         //act
         ferryAgent.registerInPort(port);

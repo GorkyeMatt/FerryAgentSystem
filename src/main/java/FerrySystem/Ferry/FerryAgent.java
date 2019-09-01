@@ -14,7 +14,6 @@ public class FerryAgent extends BasicAgent
     //region Fields
 
     private Ferry myFerry;
-    private Logger logger = new SimpleLogger();
 
     //endregion
 
@@ -22,10 +21,6 @@ public class FerryAgent extends BasicAgent
 
     public Ferry getFerry() {
         return myFerry;
-    }
-
-    public Logger getLogger() {
-        return logger;
     }
 
     //endregion

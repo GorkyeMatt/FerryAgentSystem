@@ -3,7 +3,7 @@ package RegisterFerry;
 import FerrySystem.Commons.*;
 import FerrySystem.Ferry.FerryAgent;
 import FerrySystem.Port.PortAgent;
-import helpers.jadeStarter;
+import helpers.CommonPreparationForTests;
 
 import jade.core.AID;
 import org.junit.jupiter.api.*;
@@ -12,40 +12,21 @@ import java.util.Vector;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class RegisterFerryTests {
-
-    private jadeStarter jadeStarter;
-
-    @BeforeEach
-    void setUp(){
-        jadeStarter = new jadeStarter();
-    }
-
-    @AfterEach
-    void tearDown(){
-        jadeStarter.close();
-    }
-
+class RegisterFerryTests extends CommonPreparationForTests {
 
     @Test
     void RegisterFerry() throws InterruptedException {
 
         //arrange
-        var port = new Port();
-        port.setAgentAID(new AID("port", AID.ISLOCALNAME));
+        var portAgent = CreatePortAgent("port");
+        var port = portAgent.getMyPort();
 
-        var portAgent = new PortAgent(port);
-        jadeStarter.startAgent("port", portAgent);
-
-        var ferry = new Ferry();
-        var ferryAgent = new FerryAgent(ferry);
-        jadeStarter.startAgent("ferry1", ferryAgent);
+        var ferryAgent = CreateFerryAgent("ferry1");
 
         //act
         ferryAgent.registerInPort(port);
 
         Thread.sleep(1000); //give agent time to finish job
-
 
         //assert
         var ferriesInPort = port.getRegisteredFerries().size();
@@ -68,10 +49,8 @@ class RegisterFerryTests {
 
         var ferries = new Vector<FerryAgent>(numberOfFerries);
         for (int i = 0; i< numberOfFerries; i++){
-            var ferry = new Ferry();
-            var ferryAgent = new FerryAgent(ferry);
+            var ferryAgent = CreateFerryAgent("ferry" + i);
             ferries.add(ferryAgent);
-            jadeStarter.startAgent("ferry" + i, ferryAgent);
         }
 
 
