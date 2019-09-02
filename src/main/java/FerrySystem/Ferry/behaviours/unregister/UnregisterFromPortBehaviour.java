@@ -26,14 +26,14 @@ public class UnregisterFromPortBehaviour extends AskAndWaitBehaviour {
         message.setContent(ferry.getId() + "");
     }
 
+//    @Override
+//    protected void prepareMessageTemplate() {
+//        messageTemplate = MessageTemplate.MatchOntology(Defines.FERRY_SYSTEM_ONTOLOGY_FERRY_UNREGISTER);
+//    }
+
     @Override
     public void onMessageSending() {
         myFerryAgent.getLogger().log("Sent unregistering message");
-    }
-
-    @Override
-    protected void prepareMessageTemplate() {
-        messageTemplate = MessageTemplate.MatchOntology(Defines.FERRY_SYSTEM_ONTOLOGY_FERRY_UNREGISTER);
     }
 
     @Override

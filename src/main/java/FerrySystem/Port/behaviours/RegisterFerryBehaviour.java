@@ -5,8 +5,7 @@ import FerrySystem.Commons.Ferry;
 import FerrySystem.Commons.helpers.Logger;
 import FerrySystem.Commons.helpers.behaviours.CyclicMessageReceiveBehaviour;
 import FerrySystem.Port.PortAgent;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 
@@ -15,30 +14,22 @@ import java.io.IOException;
 public class RegisterFerryBehaviour extends CyclicMessageReceiveBehaviour {
 
     private PortAgent myPortAgent;
-    private ObjectMapper mapper;
-    private Logger logger;
 
     public RegisterFerryBehaviour(PortAgent myPortAgent) {
         super(myPortAgent);
         this.myPortAgent = myPortAgent;
-        logger = myPortAgent.getLogger();
-
-        mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
-    private MessageTemplate template =  MessageTemplate.and(
-            MessageTemplate.MatchOntology(Defines.FERRY_SYSTEM_ONTOLOGY_FERRY_REGISTER),
-            MessageTemplate.MatchPerformative(ACLMessage.REQUEST));
-
     @Override
-    public MessageTemplate messageTemplate() {
-        return template;
+    public void prepareMessageTemplate() {
+        messageTemplate =  MessageTemplate.and(
+                MessageTemplate.MatchOntology(Defines.FERRY_SYSTEM_ONTOLOGY_FERRY_REGISTER),
+                MessageTemplate.MatchPerformative(ACLMessage.REQUEST));
     }
 
     @Override
     public void onMessageReceived(ACLMessage received) {
-        logger.log("received:\n:" + received);
+        logger.logReceived(received);
 
         var message = received.createReply();
 
@@ -55,7 +46,9 @@ public class RegisterFerryBehaviour extends CyclicMessageReceiveBehaviour {
             message.setPerformative(ACLMessage.REFUSE);
         }
 
-        logger.log("sending:\n:" + message);
+        logger.logSend(message);
         myAgent.send(message);
     }
+
+
 }

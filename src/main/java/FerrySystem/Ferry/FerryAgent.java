@@ -2,12 +2,12 @@ package FerrySystem.Ferry;
 
 import FerrySystem.Commons.*;
 import FerrySystem.Commons.helpers.BasicAgent;
-import FerrySystem.Commons.helpers.Logger;
-import FerrySystem.Commons.helpers.SimpleLogger;
+import FerrySystem.Ferry.behaviours.InformDepartureDetailsBehaviour;
+import FerrySystem.Ferry.behaviours.InformPlaceBehaviour;
+import FerrySystem.Ferry.behaviours.InformScheduleBehaviour;
 import FerrySystem.Ferry.behaviours.register.RegisterInPortBehaviour;
 import FerrySystem.Ferry.behaviours.unregister.*;
-import FerrySystem.Ferry.behaviours.weather.AskWeatherBehaviour;
-import jade.core.Agent;
+import FerrySystem.Ferry.behaviours.weather.InformWeatherBehaviour;
 
 public class FerryAgent extends BasicAgent
 {
@@ -39,8 +39,14 @@ public class FerryAgent extends BasicAgent
         logger.log("Ferry is ready");
         myFerry.setAgentAID(this.getAID());
 
-        var listen = new AskWeatherBehaviour(this);
+        var listen = new InformWeatherBehaviour(this);
         addBehaviour(listen);
+
+        addBehaviour(new InformDepartureDetailsBehaviour(this));
+
+        addBehaviour(new InformPlaceBehaviour(this));
+
+        addBehaviour(new InformScheduleBehaviour(this));
     }
 
     //endregion

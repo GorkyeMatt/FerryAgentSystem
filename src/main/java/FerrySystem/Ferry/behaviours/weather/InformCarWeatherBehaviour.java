@@ -38,14 +38,6 @@ public class InformCarWeatherBehaviour extends AskAndWaitBehaviour
     }
 
     @Override
-    protected void prepareMessageTemplate()
-    {
-        messageTemplate =  MessageTemplate.and(
-                MessageTemplate.MatchOntology(Defines.FERRY_SYSTEM_ONTOLOGY_WEATHER_PORT),
-                MessageTemplate.MatchPerformative(ACLMessage.INFORM));
-    }
-
-    @Override
     public void onMessageReceived(ACLMessage received)
     {
         var response = receivedFromClient.createReply();

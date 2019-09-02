@@ -1,10 +1,10 @@
 package FerrySystem.Client;
 
-import FerrySystem.Client.behaviours.AskFerriesBehaviour;
-import FerrySystem.Client.behaviours.AskWeatherBehaviour;
+import FerrySystem.Client.behaviours.*;
 import FerrySystem.Commons.Car;
 import FerrySystem.Commons.Ferry;
 import FerrySystem.Commons.helpers.BasicAgent;
+import jade.core.AID;
 
 public class CarAgent extends BasicAgent
 {
@@ -48,9 +48,21 @@ public class CarAgent extends BasicAgent
         addBehaviour(askWeather);
     }
 
-    public void askFerries(){
-        var ask = new AskFerriesBehaviour(this);
+    public void askFerries(AID aid){
+        var ask = new AskFerriesBehaviour(this, aid);
         addBehaviour(ask);
+    }
+
+    public void askDepartureDetails(){
+        addBehaviour(new AskDepartureDetailsBehaviour(this));
+    }
+
+    public void askForPlace(){
+        addBehaviour(new AskForPlaceBehaviour(this));
+    }
+
+    public void askSchedule(){
+        addBehaviour(new AskScheduleBehaviour(this));
     }
 
     //region

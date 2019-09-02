@@ -1,4 +1,4 @@
-package Weather;
+package AskInfo;
 
 import FerrySystem.Commons.WeatherInfo;
 import helpers.CommonPreparationForTests;

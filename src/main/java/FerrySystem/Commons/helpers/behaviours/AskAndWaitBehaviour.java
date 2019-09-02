@@ -1,6 +1,10 @@
 package FerrySystem.Commons.helpers.behaviours;
 
 import FerrySystem.Commons.helpers.BasicAgent;
+import FerrySystem.Commons.helpers.JsonSerializer;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jade.core.AID;
 import jade.core.behaviours.SimpleBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
@@ -12,12 +16,21 @@ public abstract class AskAndWaitBehaviour extends SimpleBehaviour
 {
     private int state;
     protected BasicAgent myBasicAgent;
+    /** for serializing object to message */
+    protected JsonSerializer jsonSerializer;
+
+    /** for deserializing object from message*/
+    protected ObjectMapper mapper;
 
     public AskAndWaitBehaviour(BasicAgent a)
     {
         super(a);
         this.myBasicAgent = a;
         this.state = 0;
+
+        this.jsonSerializer = new JsonSerializer();
+        this.mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     @Override
@@ -31,6 +44,7 @@ public abstract class AskAndWaitBehaviour extends SimpleBehaviour
 
                 sendMessage();
                 state++;
+                waitForMessage();
                 break;
             case 1:
                 waitForMessage();
@@ -56,7 +70,11 @@ public abstract class AskAndWaitBehaviour extends SimpleBehaviour
 
     protected MessageTemplate messageTemplate;
     /** Prepare message template behaviour is waiting for */
-    protected abstract void prepareMessageTemplate();
+    protected void prepareMessageTemplate(){
+        messageTemplate = MessageTemplate.and(
+                MessageTemplate.MatchOntology(message.getOntology()),
+                MessageTemplate.MatchReceiver(new AID[]{myAgent.getAID()}));
+    }
 
     public void waitForMessage()
     {

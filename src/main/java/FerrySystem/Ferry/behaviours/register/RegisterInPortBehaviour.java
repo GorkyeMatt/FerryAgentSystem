@@ -2,19 +2,15 @@ package FerrySystem.Ferry.behaviours.register;
 
 import FerrySystem.Commons.Defines;
 import FerrySystem.Commons.Port;
-import FerrySystem.Commons.helpers.JsonSerializer;
 import FerrySystem.Commons.helpers.behaviours.AskAndWaitBehaviour;
 import FerrySystem.Ferry.FerryAgent;
-import jade.core.behaviours.SequentialBehaviour;
+
 import jade.lang.acl.ACLMessage;
-import jade.lang.acl.MessageTemplate;
 
 public class RegisterInPortBehaviour extends AskAndWaitBehaviour {
 
     private FerryAgent myFerryAgent;
     private Port port;
-
-    private JsonSerializer jsonSerializer = new JsonSerializer();
 
     public RegisterInPortBehaviour(FerryAgent agent, Port port) {
         super(agent);
@@ -36,12 +32,6 @@ public class RegisterInPortBehaviour extends AskAndWaitBehaviour {
     @Override
     public void onMessageSending() {
         myFerryAgent.getLogger().log("Sent registration message");
-    }
-
-    @Override
-    protected void prepareMessageTemplate() {
-        messageTemplate = MessageTemplate.MatchOntology(Defines.FERRY_SYSTEM_ONTOLOGY_FERRY_REGISTER);
-
     }
 
     @Override

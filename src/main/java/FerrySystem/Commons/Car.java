@@ -23,4 +23,14 @@ public class Car {
     {
         return weather;
     }
+
+    private Ferry myFerry;
+
+    public void setMyFerry(Ferry myFerry) {
+        this.myFerry = myFerry;
+    }
+
+    public Ferry getMyFerry() {
+        return myFerry;
+    }
 }

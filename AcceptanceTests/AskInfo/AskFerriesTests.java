@@ -1,4 +1,4 @@
-package AskFerries;
+package AskInfo;
 
 import FerrySystem.Commons.WeatherInfo;
 import FerrySystem.Ferry.FerryAgent;
@@ -35,19 +35,23 @@ public class AskFerriesTests extends CommonPreparationForTests{
         Thread.sleep(1000);
 
         //act
+        carAgent.askFerries(port.getAgentAID());
+        Thread.sleep(1000);
 
         //assert
 
         var ferries = port.getRegisteredFerries();
+
+        assertEquals(ferries.get(0).getAgentAID(), carAgent.getMyCar().getMyFerry().getAgentAID());
     }
 
-    @Test
-    void OneBehaviourTest() throws InterruptedException{
-        var carAgent = CreateCarAgent("car");
-
-        carAgent.askFerries();
-        Thread.sleep(1000);
-    }
+//    @Test
+//    void OneBehaviourTest() throws InterruptedException{
+//        var carAgent = CreateCarAgent("car");
+//
+//        carAgent.askFerries();
+//        Thread.sleep(1000);
+//    }
 
     @Test
     void RegisterMultipleFerriesToPort() throws InterruptedException{

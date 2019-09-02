@@ -5,8 +5,6 @@ import FerrySystem.Commons.Defines;
 import FerrySystem.Commons.Ferry;
 import FerrySystem.Commons.WeatherInfo;
 import FerrySystem.Commons.helpers.behaviours.AskAndWaitBehaviour;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
@@ -20,16 +18,12 @@ public class AskWeatherBehaviour extends AskAndWaitBehaviour
 {
     private CarAgent myCarAgent;
     private Ferry myFerry;
-    private ObjectMapper mapper;
 
     public AskWeatherBehaviour(CarAgent agent, Ferry ferry)
     {
         super(agent);
         this.myCarAgent = agent;
         this.myFerry = ferry;
-
-        mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     @Override
@@ -44,14 +38,6 @@ public class AskWeatherBehaviour extends AskAndWaitBehaviour
     public void onMessageSending()
     {
         myBasicAgent.getLogger().log("Asking about weather");
-    }
-
-    @Override
-    public void prepareMessageTemplate()
-    {
-        messageTemplate = MessageTemplate.and(
-                MessageTemplate.MatchOntology(Defines.FERRY_SYSTEM_ONTOLOGY_WEATHER),
-                MessageTemplate.MatchPerformative(ACLMessage.INFORM ));
     }
 
     @Override

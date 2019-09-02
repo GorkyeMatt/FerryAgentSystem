@@ -10,26 +10,22 @@ import jade.lang.acl.MessageTemplate;
 public class UnregisteringFerryBehaviour extends CyclicMessageReceiveBehaviour {
 
     private PortAgent myPortAgent;
-    private Logger logger;
 
     public UnregisteringFerryBehaviour(PortAgent myPortAgent) {
         super(myPortAgent);
         this.myPortAgent = myPortAgent;
-        logger = myPortAgent.getLogger();
     }
 
-    private MessageTemplate template =  MessageTemplate.and(
-            MessageTemplate.MatchOntology(Defines.FERRY_SYSTEM_ONTOLOGY_FERRY_UNREGISTER),
-            MessageTemplate.MatchPerformative(ACLMessage.REQUEST));
-
     @Override
-    public MessageTemplate messageTemplate() {
-        return template;
+    public void prepareMessageTemplate() {
+        messageTemplate = MessageTemplate.and(
+                MessageTemplate.MatchOntology(Defines.FERRY_SYSTEM_ONTOLOGY_FERRY_UNREGISTER),
+                MessageTemplate.MatchPerformative(ACLMessage.REQUEST));
     }
 
     @Override
     public void onMessageReceived(ACLMessage received) {
-        logger.log("received:\n:" + received);
+        logger.logReceived(received);
 
         var content = received.getContent();
         var id = Integer.parseInt(content);
@@ -39,7 +35,8 @@ public class UnregisteringFerryBehaviour extends CyclicMessageReceiveBehaviour {
         var message = received.createReply();
         message.setPerformative(ACLMessage.INFORM);
 
-        logger.log("sending:\n:" + message);
+        logger.logSend(message);
         myAgent.send(message);
     }
+
 }

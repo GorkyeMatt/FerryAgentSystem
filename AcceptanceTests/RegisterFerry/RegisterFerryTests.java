@@ -22,11 +22,10 @@ class RegisterFerryTests extends CommonPreparationForTests {
         var port = portAgent.getMyPort();
 
         var ferryAgent = CreateFerryAgent("ferry1");
-
         //act
         ferryAgent.registerInPort(port);
 
-        Thread.sleep(1000); //give agent time to finish job
+        Thread.sleep(2000); //give agent time to finish job
 
         //assert
         var ferriesInPort = port.getRegisteredFerries().size();
