@@ -2,9 +2,9 @@ package FerrySystem.Ferry;
 
 import FerrySystem.Commons.*;
 import FerrySystem.Commons.helpers.BasicAgent;
-import FerrySystem.Ferry.behaviours.InformDepartureDetailsBehaviour;
-import FerrySystem.Ferry.behaviours.InformPlaceBehaviour;
-import FerrySystem.Ferry.behaviours.InformScheduleBehaviour;
+//import FerrySystem.Ferry.behaviours.InformDepartureDetailsBehaviour;
+//import FerrySystem.Ferry.behaviours.InformPlaceBehaviour;
+//import FerrySystem.Ferry.behaviours.InformScheduleBehaviour;
 import FerrySystem.Ferry.behaviours.register.RegisterInPortBehaviour;
 import FerrySystem.Ferry.behaviours.unregister.*;
 import FerrySystem.Ferry.behaviours.weather.InformWeatherBehaviour;
@@ -41,12 +41,12 @@ public class FerryAgent extends BasicAgent
 
         var listen = new InformWeatherBehaviour(this);
         addBehaviour(listen);
-
-        addBehaviour(new InformDepartureDetailsBehaviour(this));
-
-        addBehaviour(new InformPlaceBehaviour(this));
-
-        addBehaviour(new InformScheduleBehaviour(this));
+//
+//        addBehaviour(new InformDepartureDetailsBehaviour(this));
+//
+//        addBehaviour(new InformPlaceBehaviour(this));
+//
+//        addBehaviour(new InformScheduleBehaviour(this));
     }
 
     //endregion

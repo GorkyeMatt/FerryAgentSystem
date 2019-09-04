@@ -19,14 +19,15 @@
 //    }
 //
 //    @Override
-//    protected void prepareMessage() {
-//        message = new ACLMessage(ACLMessage.REQUEST);
+//    protected ACLMessage prepareMessage() {
+//        var message = new ACLMessage(ACLMessage.REQUEST);
 //        message.setOntology(Defines.FERRY_SYSTEM_ONTOLOGY_FERRY_REGISTER);
 //        message.addReceiver(port.getAgentAID());
 //
 //        var ferry = myFerryAgent.getFerry();
 //        var serialized = jsonSerializer.serialize(ferry);
 //        message.setContent(serialized);
+//        return message;
 //    }
 //
 //    @Override
@@ -47,8 +48,6 @@
 //        }
 //    }
 //}
-//
-
 
 package FerrySystem.Ferry.behaviours.register;
 

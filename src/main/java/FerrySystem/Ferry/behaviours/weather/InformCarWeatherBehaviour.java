@@ -23,12 +23,13 @@ public class InformCarWeatherBehaviour extends AskAndWaitBehaviour
     }
 
     @Override
-    protected void prepareMessage()
+    protected ACLMessage prepareMessage()
     {
-        message = new ACLMessage(ACLMessage.INFORM);
+        var message = new ACLMessage(ACLMessage.INFORM);
         message.setOntology(Defines.FERRY_SYSTEM_ONTOLOGY_WEATHER_PORT);
 
         message.addReceiver(myFerryAgent.getFerry().getMyPort().getAgentAID());
+        return message;
     }
 
     @Override

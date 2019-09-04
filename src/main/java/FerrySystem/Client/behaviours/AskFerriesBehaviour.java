@@ -28,12 +28,13 @@ public class AskFerriesBehaviour extends AskAndWaitBehaviour
     }
 
     @Override
-    public void prepareMessage()
+    public ACLMessage prepareMessage()
     {
-        message = new ACLMessage(ACLMessage.INFORM);
+        var message = new ACLMessage(ACLMessage.INFORM);
         message.setOntology(Defines.FERRY_SYSTEM_ONTOLOGY_ASK_FERRIES);
 
         message.addReceiver(aid);
+        return message;
     }
 
     @Override

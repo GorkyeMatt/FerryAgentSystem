@@ -15,6 +15,7 @@ import jade.lang.acl.MessageTemplate;
 public abstract class AskAndWaitBehaviour extends SimpleBehaviour
 {
     private int state;
+    private boolean finished = false;
     protected BasicAgent myBasicAgent;
     /** for serializing object to message */
     protected JsonSerializer jsonSerializer;
@@ -34,27 +35,33 @@ public abstract class AskAndWaitBehaviour extends SimpleBehaviour
     }
 
     @Override
+    public void onStart() {
+//        super.onStart();
+        message = prepareMessage();
+        prepareMessageTemplate();
+
+        sendMessage();
+    }
+
+    @Override
     public void action()
     {
-        switch (state)
+        var received = myAgent.receive(messageTemplate);
+        if (received != null)
         {
-            case 0:
-                prepareMessage();
-                prepareMessageTemplate();
-
-                sendMessage();
-                state++;
-                //waitForMessage();
-                break;
-            case 1:
-                waitForMessage();
-                break;
+            myBasicAgent.getLogger().logReceived(received);
+            onMessageReceived(received);
+            finished = true;
+        }
+        else
+        {
+            block();
         }
     }
 
-    protected ACLMessage message;
+    private ACLMessage message;
     /** Prepare message to be sent */
-    protected abstract void prepareMessage();
+    protected abstract ACLMessage prepareMessage();
 
     public void sendMessage()
     {
@@ -76,27 +83,12 @@ public abstract class AskAndWaitBehaviour extends SimpleBehaviour
                 MessageTemplate.MatchReceiver(new AID[]{myAgent.getAID()}));
     }
 
-    public void waitForMessage()
-    {
-        var received = myAgent.receive(messageTemplate);
-        if (received != null)
-        {
-            myBasicAgent.getLogger().logReceived(received);
-            onMessageReceived(received);
-            state++;
-        }
-        else
-        {
-            block();
-        }
-    }
-
     /** Perform some action when message specified in message template is received */
     public abstract void onMessageReceived(ACLMessage received);
 
     @Override
     public boolean done()
     {
-        return state >= 2;
+        return finished;
     }
 }

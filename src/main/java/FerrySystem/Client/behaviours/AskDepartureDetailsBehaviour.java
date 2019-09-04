@@ -10,8 +10,8 @@ public class AskDepartureDetailsBehaviour extends AskAndWaitBehaviour {
     }
 
     @Override
-    protected void prepareMessage() {
-
+    protected ACLMessage prepareMessage() {
+        return null;
     }
 
     @Override

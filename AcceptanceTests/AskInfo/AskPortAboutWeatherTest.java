@@ -24,15 +24,15 @@ public class AskPortAboutWeatherTest extends CommonPreparationForTests
 
         //act
         ferryAgent.registerInPort(portAgent.getMyPort());
-        Thread.sleep(2000);
+        Thread.sleep(1000);
 
         carAgent.askAboutWeather(ferryAgent.getFerry());
-//        Thread.sleep(3000); //give agent time to finish job
-//
-//        //assert
-//        assertNotNull(carAgent.getMyCar().getWeather());
-//
-//        assertEquals(portAgent.getMyPort().getWeather(), carAgent.getMyCar().getWeather());
+        Thread.sleep(1000); //give agent time to finish job
+
+        //assert
+        assertNotNull(carAgent.getMyCar().getWeather());
+
+        assertEquals(portAgent.getMyPort().getWeather(), carAgent.getMyCar().getWeather());
 
     }
 

@@ -54,34 +54,34 @@ public class AskFerriesTests extends CommonPreparationForTests{
 //        Thread.sleep(1000);
 //    }
 
-    @Test
-    void RegisterMultipleFerriesToPort() throws InterruptedException{
-        var portAgent = CreatePortAgent("port");
-        portAgent.getLogger().setDisplaySendReceived(false);
-        portAgent.getLogger().setDisplayLog(false);
-
-        var port = portAgent.getMyPort();
-
-        List<FerryAgent> ferryAgents = new ArrayList<>();
-
-        int count = 5;
-        for(int i = 0; i < count; i++){
-            var ferryAgent = CreateFerryAgent("ferry" + i);
-            ferryAgent.getLogger().setDisplaySendReceived(false);
-
-            ferryAgent.registerInPort(port);
-            ferryAgents.add(ferryAgent);
-        }
-
-        Thread.sleep(1000); //give agent time to finish job
-
-        var ferriesInPort = port.getRegisteredFerries().size();
-
-        assertEquals(count, ferryAgents.size());
-        assertEquals(count, ferriesInPort);
-
-        for(int i=0; i<count; i++){
-            assertNotNull(ferryAgents.get(i).getFerry().getMyPort());
-        }
-    }
+//    @Test
+//    void RegisterMultipleFerriesToPort() throws InterruptedException{
+//        var portAgent = CreatePortAgent("port");
+//        portAgent.getLogger().setDisplaySendReceived(false);
+//        portAgent.getLogger().setDisplayLog(false);
+//
+//        var port = portAgent.getMyPort();
+//
+//        List<FerryAgent> ferryAgents = new ArrayList<>();
+//
+//        int count = 5;
+//        for(int i = 0; i < count; i++){
+//            var ferryAgent = CreateFerryAgent("ferry" + i);
+//            ferryAgent.getLogger().setDisplaySendReceived(false);
+//
+//            ferryAgent.registerInPort(port);
+//            ferryAgents.add(ferryAgent);
+//        }
+//
+//        Thread.sleep(1000); //give agent time to finish job
+//
+//        var ferriesInPort = port.getRegisteredFerries().size();
+//
+//        assertEquals(count, ferryAgents.size());
+//        assertEquals(count, ferriesInPort);
+//
+//        for(int i=0; i<count; i++){
+//            assertNotNull(ferryAgents.get(i).getFerry().getMyPort());
+//        }
+//    }
 }

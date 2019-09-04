@@ -35,6 +35,4 @@ public class InformFerriesBehaviour extends CyclicMessageReceiveBehaviour
         logger.logSend(received);
         myAgent.send(response);
     }
-
-
 }

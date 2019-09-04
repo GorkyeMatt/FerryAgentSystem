@@ -13,7 +13,7 @@ public class InformPlaceBehaviour extends CyclicMessageReceiveBehaviour {
     public void prepareMessageTemplate() {
 
     }
-    
+
     @Override
     public void onMessageReceived(ACLMessage message) {
 
