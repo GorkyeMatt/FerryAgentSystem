@@ -30,7 +30,7 @@ public class CommonPreparationForTests
 
         var portAgent = new PortAgent(port);
         jadeStarter.startAgent(name, portAgent);
-        //Thread.sleep(100);
+        //Thread.sleep(10);
 
         return portAgent;
     }
@@ -42,7 +42,7 @@ public class CommonPreparationForTests
         var ferryAgent = new FerryAgent(ferry);
         jadeStarter.startAgent(name, ferryAgent);
 
-        //Thread.sleep(100);
+        //Thread.sleep(10);
         return ferryAgent;
     }
 
@@ -53,7 +53,7 @@ public class CommonPreparationForTests
         var carAgent = new CarAgent(car);
         jadeStarter.startAgent(name, carAgent);
 
-        //Thread.sleep(100);
+        //Thread.sleep(10);
         return carAgent;
     }
 

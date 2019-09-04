@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class AskFerriesTests extends CommonPreparationForTests{
     @Test
@@ -78,5 +79,9 @@ public class AskFerriesTests extends CommonPreparationForTests{
 
         assertEquals(count, ferryAgents.size());
         assertEquals(count, ferriesInPort);
+
+        for(int i=0; i<count; i++){
+            assertNotNull(ferryAgents.get(i).getFerry().getMyPort());
+        }
     }
 }

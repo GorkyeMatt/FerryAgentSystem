@@ -44,7 +44,7 @@ public abstract class AskAndWaitBehaviour extends SimpleBehaviour
 
                 sendMessage();
                 state++;
-                waitForMessage();
+                //waitForMessage();
                 break;
             case 1:
                 waitForMessage();
