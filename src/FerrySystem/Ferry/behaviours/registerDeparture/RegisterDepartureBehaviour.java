@@ -19,7 +19,7 @@ public class RegisterDepartureBehaviour extends SequentialBehaviour {
         var sendRegistration = new SendDepartureRegistrationMessageBehaviour(myFerryAgent, departure);
         addSubBehaviour(sendRegistration);
 
-        var confirmRegistration = new ConfirmDepartureRegistrationBehaviour();
+        var confirmRegistration = new ConfirmDepartureRegistrationBehaviour(myFerryAgent);
         addSubBehaviour(confirmRegistration);
     }
 }

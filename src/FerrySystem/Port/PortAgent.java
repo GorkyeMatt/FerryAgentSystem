@@ -4,6 +4,7 @@ import FerrySystem.Commons.data.Ferry;
 import FerrySystem.Commons.data.Port;
 import FerrySystem.Commons.helpers.Logger;
 import FerrySystem.Commons.helpers.SimpleLogger;
+import FerrySystem.Port.behaviours.RegisterDepartureBehaviour;
 import FerrySystem.Port.behaviours.RegisterFerryBehaviour;
 import FerrySystem.Port.behaviours.UnregisteringFerryBehaviour;
 import jade.core.Agent;
@@ -21,10 +22,6 @@ public class PortAgent extends Agent {
         return logger;
     }
 
-    public Port getMyPort() {
-        return myPort;
-    }
-
     @Override
     protected void setup() {
         super.setup();
@@ -32,10 +29,13 @@ public class PortAgent extends Agent {
         logger.log("Ready to work");
 
         var registerFerryBehaviour = new RegisterFerryBehaviour(this);
-        addBehaviour(registerFerryBehaviour);
-
         var unregisteringFerryBehaviour = new UnregisteringFerryBehaviour(this);
+        var registerDepartureBehaviour = new RegisterDepartureBehaviour(this);
+
+        addBehaviour(registerFerryBehaviour);
         addBehaviour(unregisteringFerryBehaviour);
+        addBehaviour(registerDepartureBehaviour);
+
     }
 
     public void addFerry(Ferry ferry) {

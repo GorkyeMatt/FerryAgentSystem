@@ -7,7 +7,8 @@ import FerrySystem.Ferry.FerryAgent;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 
-public class ConfirmRegistrationBehaviour extends OneMessageReceiveBehaviour {
+public class ConfirmRegistrationBehaviour
+        extends OneMessageReceiveBehaviour {
 
     private FerryAgent myFerryAgent;
     private Port port;
@@ -18,7 +19,8 @@ public class ConfirmRegistrationBehaviour extends OneMessageReceiveBehaviour {
         this.port = port;
     }
 
-    private MessageTemplate template =  MessageTemplate.MatchOntology(Defines.FERRY_SYSTEM_ONTOLOGY_FERRY_REGISTER);
+    private MessageTemplate template =  MessageTemplate
+            .MatchOntology(Defines.FERRY_SYSTEM_ONTOLOGY_FERRY_REGISTER);
 
     @Override
     public MessageTemplate messageTemplate() {

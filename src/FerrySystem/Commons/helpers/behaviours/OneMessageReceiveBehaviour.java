@@ -10,8 +10,8 @@ public abstract class OneMessageReceiveBehaviour extends SimpleBehaviour {
         super(a);
     }
 
-    public abstract void onMessageReceived(ACLMessage message);
     public abstract MessageTemplate messageTemplate();
+    public abstract void onMessageReceived(ACLMessage message);
 
     private boolean receivedMessage = false;
 

@@ -1,15 +1,43 @@
 package FerrySystem.Ferry.behaviours.registerDeparture;
 
-import jade.core.behaviours.Behaviour;
+import FerrySystem.Commons.Defines;
+import FerrySystem.Commons.helpers.behaviours.OneMessageReceiveBehaviour;
+import FerrySystem.Ferry.FerryAgent;
+import jade.lang.acl.ACLMessage;
+import jade.lang.acl.MessageTemplate;
 
-public class ConfirmDepartureRegistrationBehaviour extends Behaviour {
+public class ConfirmDepartureRegistrationBehaviour
+        extends OneMessageReceiveBehaviour {
+
+    private FerryAgent myFerryAgent;
+
+    ConfirmDepartureRegistrationBehaviour(FerryAgent agent) {
+        super(agent);
+        this.myFerryAgent = agent;
+    }
+
+    private MessageTemplate template = MessageTemplate
+            .MatchOntology(Defines.FERRY_SYSTEM_ONTOLOGY_DEPARTURE_REGISTER);
+
     @Override
-    public void action() {
-
+    public MessageTemplate messageTemplate() {
+        return template;
     }
 
     @Override
-    public boolean done() {
-        return false;
+    public void onMessageReceived(ACLMessage received) {
+        myFerryAgent.getLogger().log(received);
+
+        var content = received.getContent();
+
+        if(received.getPerformative() == ACLMessage.AGREE){
+            var id = Integer.parseInt(content);
+            //todo success(id)
+        }
+        else{
+            //todo failure
+        }
     }
+
+
 }

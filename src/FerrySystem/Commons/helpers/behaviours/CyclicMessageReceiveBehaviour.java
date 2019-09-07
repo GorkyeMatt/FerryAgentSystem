@@ -11,8 +11,8 @@ public abstract class CyclicMessageReceiveBehaviour extends CyclicBehaviour {
         super(a);
     }
 
-    public abstract void onMessageReceived(ACLMessage message);
     public abstract MessageTemplate messageTemplate();
+    public abstract void onMessageReceived(ACLMessage message);
 
     @Override
     public final void action() {
