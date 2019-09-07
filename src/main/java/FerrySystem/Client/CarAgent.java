@@ -1,6 +1,8 @@
 package FerrySystem.Client;
 
 import FerrySystem.Client.behaviours.*;
+import FerrySystem.Client.behaviours.negotiations.AskForPlaceBehaviour;
+import FerrySystem.Client.behaviours.negotiations.ListenNegotiationBehaviour;
 import FerrySystem.Commons.Car;
 import FerrySystem.Commons.Ferry;
 import FerrySystem.Commons.helpers.BasicAgent;
@@ -12,6 +14,8 @@ public class CarAgent extends BasicAgent
     //region Fields
 
     private Car myCar;
+    private ListenNegotiationBehaviour listenNegotiation;
+
     //private Logger logger = new SimpleLogger();
 
     //endregion
@@ -57,14 +61,29 @@ public class CarAgent extends BasicAgent
         addBehaviour(new AskDepartureDetailsBehaviour(this));
     }
 
-    public void askForPlace(){
-        addBehaviour(new AskForPlaceBehaviour(this));
-    }
-
     public void askSchedule(){
         addBehaviour(new AskScheduleBehaviour(this));
     }
 
-    //region
+    //endregion
+
+
+
+    //region Negotiations
+
+
+    public void askForPlace(){
+        addBehaviour(new AskForPlaceBehaviour(this));
+    }
+
+    public ListenNegotiationBehaviour getListenNegotiation() {
+        return listenNegotiation;
+    }
+
+    public void setListenNegotiation(ListenNegotiationBehaviour listenNegotiation) {
+        this.listenNegotiation = listenNegotiation;
+    }
+
+    //endregion
 
 }

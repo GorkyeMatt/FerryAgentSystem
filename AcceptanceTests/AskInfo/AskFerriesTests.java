@@ -1,17 +1,12 @@
 package AskInfo;
 
 import FerrySystem.Commons.WeatherInfo;
-import FerrySystem.Ferry.FerryAgent;
 import helpers.CommonPreparationForTests;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class AskFerriesTests extends CommonPreparationForTests{
+class AskFerriesTests extends CommonPreparationForTests{
     @Test
     void AskFerries() throws InterruptedException{
 

@@ -5,6 +5,7 @@ import FerrySystem.Commons.helpers.BasicAgent;
 //import FerrySystem.Ferry.behaviours.InformDepartureDetailsBehaviour;
 //import FerrySystem.Ferry.behaviours.InformPlaceBehaviour;
 //import FerrySystem.Ferry.behaviours.InformScheduleBehaviour;
+import FerrySystem.Ferry.behaviours.negotiations.AwaitClientBehaviour;
 import FerrySystem.Ferry.behaviours.register.RegisterInPortBehaviour;
 import FerrySystem.Ferry.behaviours.unregister.*;
 import FerrySystem.Ferry.behaviours.weather.InformWeatherBehaviour;
@@ -41,6 +42,9 @@ public class FerryAgent extends BasicAgent
 
         var listen = new InformWeatherBehaviour(this);
         addBehaviour(listen);
+
+
+        addBehaviour(new AwaitClientBehaviour(this));
 //
 //        addBehaviour(new InformDepartureDetailsBehaviour(this));
 //
