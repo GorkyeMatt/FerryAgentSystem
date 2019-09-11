@@ -2,7 +2,6 @@ package FerrySystem.Client.behaviours.negotiations;
 
 import FerrySystem.Client.CarAgent;
 import FerrySystem.Commons.Defines;
-import FerrySystem.Commons.helpers.BasicAgent;
 import FerrySystem.Commons.helpers.behaviours.CyclicMessageReceiveBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
@@ -28,12 +27,20 @@ public class ListenNegotiationBehaviour extends CyclicMessageReceiveBehaviour {
 
         }else {
             var timeText = message.getContent();
-            var time = LocalDateTime.parse(timeText);
-            previouslyProposedTime = time;
+            var proposedTime = LocalDateTime.parse(timeText);
+            previouslyProposedTime = proposedTime;
 
             var response = message.createReply();
             response.setPerformative(ACLMessage.PROPOSE);
-            response.setContent("" + previouslyProposedTime);
+
+            var estimatedArrivalTime = myCarAgent.getMyCar().getEstimatedArrivalTime();
+            if(estimatedArrivalTime.isBefore(proposedTime)){
+                response.setContent("" + proposedTime);
+            }
+            else{
+                response.setContent("" + estimatedArrivalTime);
+            }
+
 
             myAgent.send(response);
             logger.logSend(response);

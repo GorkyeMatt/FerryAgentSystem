@@ -7,12 +7,22 @@ import FerrySystem.Commons.helpers.behaviours.AskAndWaitBehaviour;
 import jade.core.behaviours.OneShotBehaviour;
 import jade.lang.acl.ACLMessage;
 
+import java.time.LocalDateTime;
+
 public class AskForPlaceBehaviour extends AskAndWaitBehaviour {
     private CarAgent myCarAgent;
+    private LocalDateTime proposedTime;
 
     public AskForPlaceBehaviour(CarAgent a) {
         super(a);
         this.myCarAgent = a;
+        this.proposedTime =  myCarAgent.getMyCar().getEstimatedArrivalTime();
+    }
+
+    public AskForPlaceBehaviour(CarAgent a, LocalDateTime proposedTime) {
+        super(a);
+        this.myCarAgent = a;
+        this.proposedTime = proposedTime;
     }
 
     @Override
@@ -24,21 +34,27 @@ public class AskForPlaceBehaviour extends AskAndWaitBehaviour {
         message.addReceiver(departureInfo.ferryAID);
         message.setOntology(Defines.FERRY_SYSTEM_ONTOLOGY_ASK_PLACE);
 
-        message.setContent(""  + departureInfo.Id + '\n' + myCarAgent.getMyCar().getEstimatedArrivalTime());
+        message.setContent(""  + departureInfo.Id + '\n' + proposedTime);
 
         return message;
     }
 
     @Override
     public void onMessageReceived(ACLMessage received) {
+        var car = myCarAgent.getMyCar();
+
         if(received.getPerformative() == ACLMessage.ACCEPT_PROPOSAL) {
-            var car = myCarAgent.getMyCar();
             car.setActuallyRegister(car.getDepartureInfo());
-            car.setDepartureTime(myCarAgent.getMyCar().getEstimatedArrivalTime());
+            car.setDepartureTime(proposedTime);
 
             var listenNegotiation = new ListenNegotiationBehaviour(myCarAgent);
             myCarAgent.addBehaviour(listenNegotiation);
             myCarAgent.setListenNegotiation(listenNegotiation);
+        }
+        else if(received.getPerformative() == ACLMessage.INFORM){
+            var timeText = received.getContent();
+            var proposedTime = LocalDateTime.parse(timeText);
+            car.setDepartureTime(proposedTime);
         }
     }
 }

@@ -1,12 +1,15 @@
 package FerrySystem.Client;
 
 import FerrySystem.Client.behaviours.*;
+import FerrySystem.Client.behaviours.negotiations.AskAwaitBehaviour;
 import FerrySystem.Client.behaviours.negotiations.AskForPlaceBehaviour;
 import FerrySystem.Client.behaviours.negotiations.ListenNegotiationBehaviour;
 import FerrySystem.Commons.Car;
 import FerrySystem.Commons.Ferry;
 import FerrySystem.Commons.helpers.BasicAgent;
 import jade.core.AID;
+
+import java.time.LocalDateTime;
 
 public class CarAgent extends BasicAgent
 {
@@ -74,6 +77,14 @@ public class CarAgent extends BasicAgent
 
     public void askForPlace(){
         addBehaviour(new AskForPlaceBehaviour(this));
+    }
+
+    public void askForPlace(LocalDateTime proposedTime){
+        addBehaviour(new AskForPlaceBehaviour(this, proposedTime));
+    }
+
+    public void askAwait(LocalDateTime proposedTime){
+        addBehaviour(new AskAwaitBehaviour(this, proposedTime));
     }
 
     public ListenNegotiationBehaviour getListenNegotiation() {

@@ -28,9 +28,11 @@ public class StartNegotiationBehaviour extends SimpleBehaviour {
     private boolean finished;
     private int repliesCount;
     private boolean allAgreed;
-    private LocalDateTime notAcceptedTime;
+    private boolean rejected;
+    private LocalDateTime originalTime;
 
     private MessageTemplate messageTemplate;
+    private AID sender;
 
     private Logger logger;
 
@@ -51,6 +53,11 @@ public class StartNegotiationBehaviour extends SimpleBehaviour {
                 MessageTemplate.MatchPerformative(ACLMessage.PROPOSE));
     }
 
+    StartNegotiationBehaviour(FerryAgent myFerryAgent, int id, LocalDateTime clientTime, ACLMessage response, AID sender) {
+        this(myFerryAgent, id, clientTime, response);
+        this.sender = sender;
+    }
+
     @Override
     public void onStart() {
         logger.log("Starting Negotiations");
@@ -58,11 +65,17 @@ public class StartNegotiationBehaviour extends SimpleBehaviour {
         message = new ACLMessage(ACLMessage.PROPOSE);
         message.setOntology(Defines.FERRY_SYSTEM_ONTOLOGY_NEGOTIATION);
         for (var registeredCar: myFerryAgent.getFerry().getRegisteredCars()) {
+            if(sender != null && sender.getName().compareTo(registeredCar.clientAid.getName())==0)
+                continue;
+
             if(registeredCar.DepartureId == id) {
                 registered.add(registeredCar.clientAid);
                 message.addReceiver(registeredCar.clientAid);
             }
         }
+
+        var departure = myFerryAgent.getFerry().getDepartureInfos().get(id);
+        this.originalTime = departure.time;
     }
 
     @Override
@@ -88,8 +101,13 @@ public class StartNegotiationBehaviour extends SimpleBehaviour {
                     finished = true;
                 }
                 else{
-                    proposedTime = notAcceptedTime;
-                    sent = false;
+                    proposedTime = proposedTime.plusMinutes(1);
+                    if(Duration.between(proposedTime, originalTime).getSeconds() >= Defines.MAX_TIME_DIFFERENCE.getSeconds()){
+                        rejected = true;
+                    }
+                    else{
+                        sent = false;
+                    }
                 }
             }
         }
@@ -106,7 +124,6 @@ public class StartNegotiationBehaviour extends SimpleBehaviour {
             var time = LocalDateTime.parse(content);
             if(Duration.between(time, proposedTime).getSeconds() != 0){
                 allAgreed = false;
-                notAcceptedTime = time; //todo
             }
         }
         else{
@@ -117,19 +134,28 @@ public class StartNegotiationBehaviour extends SimpleBehaviour {
 
     @Override
     public int onEnd() {
-        var timeDifference = Duration.between(proposedTime, clientTime);
-        if(timeDifference.getSeconds() == 0){
-            var registeredCar = new RegisteredCar();
-            registeredCar.clientAid = message.getSender();
-            registeredCar.DepartureId = id;
-            myFerryAgent.getFerry().getRegisteredCars().add(registeredCar);
-
-            response.setPerformative(ACLMessage.ACCEPT_PROPOSAL);
+        if(rejected){
+            response.setPerformative(ACLMessage.REJECT_PROPOSAL);
+            //todo remove car from registered
         }
         else{
-            response.setPerformative(ACLMessage.INFORM);
-            response.setContent("" + proposedTime);
+            var timeDifference = Duration.between(proposedTime, clientTime);
+            if(timeDifference.getSeconds() == 0){
+                if(sender == null){
+                    var registeredCar = new RegisteredCar();
+                    registeredCar.clientAid = message.getSender();
+                    registeredCar.DepartureId = id;
+                    myFerryAgent.getFerry().getRegisteredCars().add(registeredCar);
+                }
+
+                response.setPerformative(ACLMessage.ACCEPT_PROPOSAL);
+            }
+            else{
+                response.setPerformative(ACLMessage.INFORM);
+                response.setContent("" + proposedTime);
+            }
         }
+
 
         myAgent.send(response);
         logger.logSend(response);
@@ -138,6 +164,6 @@ public class StartNegotiationBehaviour extends SimpleBehaviour {
 
     @Override
     public boolean done() {
-        return finished;
+        return finished || rejected;
     }
 }

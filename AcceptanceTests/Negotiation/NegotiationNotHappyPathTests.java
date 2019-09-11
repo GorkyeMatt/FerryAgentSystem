@@ -16,10 +16,11 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDateTime;
 import java.util.Vector;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class NegotiationHappyPathManyCarsTests {
+class NegotiationNotHappyPathTests {
+
     private helpers.jadeStarter jadeStarter;
 
     @BeforeEach
@@ -34,15 +35,17 @@ class NegotiationHappyPathManyCarsTests {
 
 
     @Test
-    void OneCarAskForPlaceTwoCarsRegistered() throws InterruptedException {
+    void NewCarDifferentTime() throws InterruptedException {
 
         //arrange
+        var departureTime = LocalDateTime.parse("2019-09-12T11:30:00");
+
         var departure = new DepartureInfo();
         departure.Id = 1;
         departure.ferryAID = new AID("ferry1", AID.ISLOCALNAME);
         departure.from = "Messina";
         departure.to = "Villa San Giovani";
-        departure.time = LocalDateTime.parse("2019-09-12T11:30:00");
+        departure.time = departureTime;
 
 
 
@@ -60,7 +63,7 @@ class NegotiationHappyPathManyCarsTests {
 
         var car = new Car();
         car.setDepartureInfo(departure);
-        car.setEstimatedArrivalTime(LocalDateTime.parse("2019-09-12T11:30:00"));
+        car.setEstimatedArrivalTime(LocalDateTime.parse("2019-09-12T11:15:00")); //10 min earlier that others
 
         var carAgent = new CarAgent(car);
         jadeStarter.startAgent("car1", carAgent);
@@ -70,8 +73,8 @@ class NegotiationHappyPathManyCarsTests {
         var car2 = new Car();
         car2.setActuallyRegister(departure);
         car2.setDepartureInfo(departure);
-        car2.setEstimatedArrivalTime(LocalDateTime.parse("2019-09-12T11:30:00"));
-        car2.setDepartureTime(LocalDateTime.parse("2019-09-12T11:30:00"));
+        car2.setEstimatedArrivalTime(LocalDateTime.parse("2019-09-12T11:35:00"));
+        car2.setDepartureTime(LocalDateTime.parse("2019-09-12T11:35:00"));
 
         var carAgent2 = new CarAgent(car2);
         jadeStarter.startAgent("car2", carAgent2);
@@ -83,7 +86,7 @@ class NegotiationHappyPathManyCarsTests {
         car3.setActuallyRegister(departure);
         car3.setDepartureInfo(departure);
         car3.setEstimatedArrivalTime(LocalDateTime.parse("2019-09-12T11:30:00"));
-        car3.setDepartureTime(LocalDateTime.parse("2019-09-12T11:30:00"));
+        car3.setDepartureTime(LocalDateTime.parse("2019-09-12T11:35:00"));
 
 
         var carAgent3 = new CarAgent(car3);
@@ -99,10 +102,16 @@ class NegotiationHappyPathManyCarsTests {
         //assert
 
         var registerDeparture = car.getActuallyRegister();
-        assertNotNull(registerDeparture);
+        assertNull(registerDeparture);
 
         var registeredCarsCount = ferry.getRegisteredCars().size();
-        assertEquals(3,registeredCarsCount);
+        assertEquals(2,registeredCarsCount);
+
+        var time = carAgent.getMyCar().getDepartureTime();
+        assertNotNull(time);
+        assertEquals(11, time.getHour());
+        assertEquals(35, time.getMinute());
 
     }
+
 }

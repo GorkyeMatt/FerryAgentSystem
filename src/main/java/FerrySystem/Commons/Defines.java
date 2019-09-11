@@ -17,6 +17,7 @@ public class Defines {
     public static final String FERRY_SYSTEM_ONTOLOGY_ASK_PLACE = "ferry-system-ontology/ask-place";
     public static final String FERRY_SYSTEM_ONTOLOGY_NEGOTIATION = "ferry-system-ontology/negotiation-loop";
     public static final String FERRY_SYSTEM_ONTOLOGY_ASK_SCHEDULE = "ferry-system-ontology/ask-schedule";
+    public static final String FERRY_SYSTEM_ONTOLOGY_ASK_AWAIT = "ferry-system-ontology/ask-await";
 
 
     public static final Duration MAX_TIME_DIFFERENCE = Duration.ofSeconds(15 * 60);

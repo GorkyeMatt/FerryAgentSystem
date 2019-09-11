@@ -10,11 +10,11 @@ import jade.lang.acl.MessageTemplate;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-public class AwaitClientBehaviour extends CyclicMessageReceiveBehaviour {
+public class ListenForAwaitRequestBehaviour extends CyclicMessageReceiveBehaviour {
 
     private FerryAgent myFerryAgent;
 
-    public AwaitClientBehaviour(FerryAgent a) {
+    public ListenForAwaitRequestBehaviour(FerryAgent a) {
         super(a);
         this.myFerryAgent = a;
     }
@@ -24,17 +24,25 @@ public class AwaitClientBehaviour extends CyclicMessageReceiveBehaviour {
         logger.logReceived(message);
 
         var content = message.getContent();
-        var index = content.indexOf('\n');
-        var idText = content.substring(0, index);
-        var id = Integer.parseInt(idText);
+        var time = LocalDateTime.parse(content);
 
-        var timeText = content.substring(index + 1);
-        var time = LocalDateTime.parse(timeText);
+        var senderAID = message.getSender();
 
-
-        var departure = myFerryAgent.getFerry().getDepartureInfos().get(id);
+        var departureID = -1;
+        for (RegisteredCar car: myFerryAgent.getFerry().getRegisteredCars()) {
+            if(car.clientAid.getName().compareTo(senderAID.getName()) == 0){
+                departureID = car.DepartureId;
+            }
+        }
 
         var response = message.createReply();
+
+        if(departureID == -1){
+            response.setPerformative(ACLMessage.NOT_UNDERSTOOD);
+            myAgent.send(response);
+        }
+
+        var departure = myFerryAgent.getFerry().getDepartureInfos().get(departureID);
         if(departure == null){
             response.setPerformative(ACLMessage.NOT_UNDERSTOOD);
             myAgent.send(response);
@@ -43,21 +51,20 @@ public class AwaitClientBehaviour extends CyclicMessageReceiveBehaviour {
             var timeDifference = Duration.between(time, departure.time);
 
             if(Math.abs(timeDifference.getSeconds()) <= Defines.MAX_TIME_DIFFERENCE.getSeconds() ){
-                myFerryAgent.addBehaviour(new StartNegotiationBehaviour(myFerryAgent, id, time, response));
+                myFerryAgent.addBehaviour(new StartNegotiationBehaviour(myFerryAgent, departureID, time, response, senderAID));
             }
             else{
                 response.setPerformative(ACLMessage.REFUSE);
                 myAgent.send(response);
             }
         }
-
-
     }
 
     @Override
     public void prepareMessageTemplate() {
         messageTemplate =  MessageTemplate.and(
-                MessageTemplate.MatchOntology(Defines.FERRY_SYSTEM_ONTOLOGY_ASK_PLACE),
+                MessageTemplate.MatchOntology(Defines.FERRY_SYSTEM_ONTOLOGY_ASK_AWAIT),
                 MessageTemplate.MatchPerformative(ACLMessage.REQUEST ));
     }
 }
+
