@@ -11,8 +11,8 @@ public class Port {
     private AID agentAID;
     private WeatherInfo weather;
 
-
     private Vector<Ferry> registeredFerries = new Vector<>();
+    private Vector<DepartureInfo> registeredDepartures = new Vector<>();
 
     public int getId() {
         return id;
@@ -57,4 +57,12 @@ public class Port {
     public void setWeather (WeatherInfo weather) {this.weather = weather;}
 
     public WeatherInfo getWeather () {return weather;}
+
+    public Vector<DepartureInfo> getRegisteredDepartures() {
+        return registeredDepartures;
+    }
+
+    public void setRegisteredDepartures(Vector<DepartureInfo> registeredDepartures) {
+        this.registeredDepartures = registeredDepartures;
+    }
 }

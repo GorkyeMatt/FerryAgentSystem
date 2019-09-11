@@ -3,10 +3,7 @@ package FerrySystem.Port;
 import FerrySystem.Commons.Ferry;
 import FerrySystem.Commons.Port;
 import FerrySystem.Commons.helpers.BasicAgent;
-import FerrySystem.Port.behaviours.RegisterFerryBehaviour;
-import FerrySystem.Port.behaviours.UnregisteringFerryBehaviour;
-import FerrySystem.Port.behaviours.InformFerriesBehaviour;
-import FerrySystem.Port.behaviours.InformWeatherBehaviour;
+import FerrySystem.Port.behaviours.*;
 
 public class PortAgent extends BasicAgent {
 
@@ -37,6 +34,9 @@ public class PortAgent extends BasicAgent {
 
         var informFerries = new InformFerriesBehaviour(this);
         addBehaviour(informFerries);
+
+        var informSchedule = new InformScheduleBehaviour(this);
+        addBehaviour(informSchedule);
     }
 
     public void addFerry(Ferry ferry) {

@@ -12,12 +12,14 @@ public class Car {
     private AID agentAID;
     private WeatherInfo weather;
     private Ferry myFerry;
+    private Port myPort;
     private DepartureInfo departureInfo;
 
     private DepartureInfo actuallyRegister;
     private LocalDateTime estimatedArrivalTime;
     private LocalDateTime departureTime;
 
+    private Vector<DepartureInfo> knownDepartures = new Vector<>();
 
     // Get and set
 
@@ -79,5 +81,21 @@ public class Car {
 
     public void setDepartureTime(LocalDateTime departureTime) {
         this.departureTime = departureTime;
+    }
+
+    public Port getPort() {
+        return myPort;
+    }
+
+    public void setPort(Port myPort) {
+        this.myPort = myPort;
+    }
+
+    public Vector<DepartureInfo> getKnownDepartures() {
+        return knownDepartures;
+    }
+
+    public void setKnownDepartures(Vector<DepartureInfo> knownDepartures) {
+        this.knownDepartures = knownDepartures;
     }
 }
