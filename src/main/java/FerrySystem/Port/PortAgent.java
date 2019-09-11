@@ -37,6 +37,9 @@ public class PortAgent extends BasicAgent {
 
         var informSchedule = new InformScheduleBehaviour(this);
         addBehaviour(informSchedule);
+
+        var registerDeparture = new RegisterDepartureBehaviour(this);
+        addBehaviour(registerDeparture);
     }
 
     public void addFerry(Ferry ferry) {

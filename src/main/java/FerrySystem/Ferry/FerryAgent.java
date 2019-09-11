@@ -8,27 +8,19 @@ import FerrySystem.Commons.helpers.BasicAgent;
 import FerrySystem.Ferry.behaviours.negotiations.AwaitClientBehaviour;
 import FerrySystem.Ferry.behaviours.negotiations.ListenForAwaitRequestBehaviour;
 import FerrySystem.Ferry.behaviours.register.RegisterInPortBehaviour;
+import FerrySystem.Ferry.behaviours.registerDeparture.RegisterDepartureBehaviour;
 import FerrySystem.Ferry.behaviours.unregister.*;
 import FerrySystem.Ferry.behaviours.weather.InformWeatherBehaviour;
+import jade.core.behaviours.Behaviour;
 
-public class FerryAgent extends BasicAgent
-{
-    //region Fields
-
+public class FerryAgent extends BasicAgent {
     private Ferry myFerry;
-
-    //endregion
-
-    //region Getters and setters
 
     public Ferry getFerry() {
         return myFerry;
     }
 
-    //endregion
-
     //region Setup
-
 
     public FerryAgent(Ferry ferry) {
         this.myFerry = ferry;
@@ -41,19 +33,9 @@ public class FerryAgent extends BasicAgent
         logger.log("Ferry is ready");
         myFerry.setAgentAID(this.getAID());
 
-        var listen = new InformWeatherBehaviour(this);
-        addBehaviour(listen);
-
-
+        addBehaviour(new InformWeatherBehaviour(this));
         addBehaviour(new AwaitClientBehaviour(this));
-
         addBehaviour(new ListenForAwaitRequestBehaviour(this));
-//
-//        addBehaviour(new InformDepartureDetailsBehaviour(this));
-//
-//        addBehaviour(new InformPlaceBehaviour(this));
-//
-//        addBehaviour(new InformScheduleBehaviour(this));
     }
 
     //endregion
@@ -91,6 +73,17 @@ public class FerryAgent extends BasicAgent
     public void finishUnregistering(){
         myFerry.setMyPort(null);
         logger.log("Successfully removed ferry from port");
+    }
+
+    //endregion
+
+    //region AddDeparture
+
+    public void addDeparture(DepartureRegistrationData departure){
+        if(myFerry.getMyPort() != null){
+            Behaviour registerDepartureBehaviour = new RegisterDepartureBehaviour(this, departure);
+            addBehaviour(registerDepartureBehaviour);
+        }
     }
 
     //endregion

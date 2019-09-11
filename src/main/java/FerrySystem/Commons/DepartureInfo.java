@@ -19,4 +19,13 @@ public class DepartureInfo {
     @JsonSerialize(using = LocalDateSerializer.class)
     public LocalDateTime time;
 
+    public DepartureInfo() { }
+
+    public DepartureInfo(int id, DepartureRegistrationData registrationData) {
+        this.Id = id;
+        this.ferryAID = registrationData.getFerryAID();
+        this.from = registrationData.getFrom();
+        this.to = registrationData.getTo();
+        this.time = registrationData.getDate();
+    }
 }
